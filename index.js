@@ -75,13 +75,20 @@ function Car(model, milesPerGallon) {
   this.fuel = 0;
 }
 
-Car.prototype.fill = function(gallons){return this.tank += gallons};
+Car.prototype.fill = function(gallons){
+  this.tank += gallons;
+  this.fuel += gallons;
+  return `You put ${gallons} gallons of gas into your ${this.model}'s tank, drive safe!`
+};
 Car.prototype.drive = function(distance){
-  if(this.fuel === 0){
+  if(this.fuel <= 0){
     return `I ran out of fuel at ${this.odometer}`
   }else{
     this.odometer += distance;
-    this.tank -= distance/mpg;
+    let gallonsUsed = Math.round(distance/this.milesPerGallon);
+    this.tank -= Math.round(gallonsUsed);
+    this.fuel -= Math.round(gallonsUsed);
+    return `I drove ${distance} miles, and used about ${Math.round(gallonsUsed)} gallons of gas`
   }
 };
 /*
